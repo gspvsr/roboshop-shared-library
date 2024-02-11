@@ -37,7 +37,7 @@ def call (Map configMap){
             stage('Build') {
                 steps {
                     sh 'ls -ltr'
-                    sh 'zip -r ${component}.zip ./* --exclude=.git --exclude=.zip'
+                    sh 'zip -r ${component}.zip ./* --exclude=.git --exclude=.zip --exclude=.bkp'
                 }
             }
             stage('SAST') {
