@@ -1,4 +1,4 @@
-def call (Map ConfigMap){
+def call (Map configMap){
     //map name.get("key_name")
     def component = configMap.get("component")
     echo "component is : $component"
