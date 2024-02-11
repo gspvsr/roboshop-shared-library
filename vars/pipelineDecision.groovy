@@ -13,6 +13,7 @@ def decidePipeline(Map configMap){
             break
         default:
             error "Un crecognised application"
+            break
     }
 }
 
