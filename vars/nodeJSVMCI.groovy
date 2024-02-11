@@ -1,4 +1,5 @@
 def call (Map ConfigMap){
+    //map name.get("key_name")
     def component = configMap.get("component")
     echo "component is : $component"
     pipeline {
