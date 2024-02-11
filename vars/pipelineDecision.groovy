@@ -2,7 +2,7 @@
 
 def decidePipeline(Map configMap){
     application = configMAP.get("application")
-    //herew we are getting nodeJSVM
+    //here we are getting nodeJSVM
     switch (application){
         case 'nodeJSVM':
             echo "application is node JS and VM based"
@@ -12,7 +12,7 @@ def decidePipeline(Map configMap){
             javaVMCI(configMap)
             break
         default:
-            error "Un crecognised application"
+            error "Un-crecognised application"
             break
     }
 }
