@@ -18,11 +18,11 @@ def call (Map configMap){
                     }
                 }
             }
-            // stage('Install depdencies') {
-            //     steps {
-            //         sh 'npm install'
-            //     }
-            // }
+            stage('Install depdencies') {
+                steps {
+                    sh 'npm install'
+                }
+            }
             stage('Unit test') {
                 steps {
                     echo "unit testing is done here"
