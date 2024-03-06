@@ -9,14 +9,14 @@ def decidePipeline(Map configMap){
             nodeJSVMCI(configMap)
             break
         case 'nodeJSEKS':
-            echo "application is node JS and VM based"
+            echo "application is node JS and EKS based"
             nodeJSVMCI(configMap)
             break
         case 'JavaVM':
             javaVMCI(configMap)
             break
         default:
-            error "Un-crecognised application"
+            error "Un-recognized application"
             break
     }
 }
