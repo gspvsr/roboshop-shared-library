@@ -1,5 +1,5 @@
-def call (Map configMap){
-    //map name.get("key_name")
+def call(Map configMap){
+    // mapName.get("key-name")
     def component = configMap.get("component")
     echo "component is : $component"
     pipeline {
@@ -8,6 +8,7 @@ def call (Map configMap){
             //here if you create any variable you will have global access, since it is environment no need of def
             packageVersion = ''
         }
+        
         stages {
             stage('Get version'){
                 steps{
@@ -52,7 +53,7 @@ def call (Map configMap){
                     nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
-                        nexusUrl: '172.31.11.142:8081/',
+                        nexusUrl: '172.31.86.20:8081/',
                         groupId: 'com.roboshop',
                         version: "$packageVersion",
                         repository: "${component}",
@@ -67,21 +68,53 @@ def call (Map configMap){
                 }
             }
 
-            //here I need to configure downstram job. I have to pass package version for deployment
-            // This job will wait until downstrem job is over
-            // by default when a non-master branch CI is done, we can go for DEV development
-            stage('Deploy') {
+            stage('Docker Build') {
                 steps {
                     script{
-                        echo "Deployment"
-                        def params = [
-                            string(name: 'version', value: "$packageVersion")
-                            string(name: 'environment', value: "dev")
-                        ]
-                        build job: "../${component}-deploy", wait: true, parameters: params
+                        sh """
+                            docker build -t gspvsr/${component}:${packageVersion} .
+                        """
                     }
                 }
             }
+        //just make sure you login inside agent
+            stage('Docker Push') {
+                steps {
+                    script{
+                        sh """
+                            docker push gspvsr/${component}:${packageVersion}
+                        """
+                    }
+                }
+            }
+
+            stage('EKS Deploy') {
+                steps {
+                    script{
+                        sh """
+                            cd helm
+                            sed -i 's/IMAGE_VERSION/$packageVersion/g' values.yaml
+                            helm install ${component} -n roboshop .
+                        """
+                    }
+                }
+            }
+
+            //here I need to configure downstram job. I have to pass package version for deployment
+            // This job will wait until downstrem job is over
+            // by default when a non-master branch CI is done, we can go for DEV development
+            // stage('Deploy') {
+            //     steps {
+            //         script{
+            //             echo "Deployment"
+            //             def params = [
+            //                 string(name: 'version', value: "$packageVersion"),
+            //                 string(name: 'environment', value: "dev")
+            //             ]
+            //             build job: "../${component}-deploy", wait: true, parameters: params
+            //         }
+            //     }
+            // }
         }
 
         post{
