@@ -10,7 +10,7 @@ def decidePipeline(Map configMap){
             break
         case 'nodeJSEKS':
             echo "application is node JS and EKS based"
-            nodeJSVMCI(configMap)
+            nodeJSEKS(configMap)
             break
         case 'JavaVM':
             javaVMCI(configMap)
