@@ -95,7 +95,7 @@ def call (Map configMap){
                     script{
                         sh """
                             cd helm
-                            sed -i 's/IMAGE_VERSION/$packageVersion/g' values.yaml // -i perment change
+                            sed -i 's/IMAGE_VERSION/$packageVersion/g' values.yaml
                             helm upgrade ${component} .
                         """
                     }
