@@ -71,7 +71,7 @@ def call (Map configMap){
                 steps {
                     script{
                         sh """
-                            docker build -t gspvsr/${$component}:${packageVersion} .
+                            docker build -t gspvsr/${component}:${packageVersion} .
                         """
                     }
                         
@@ -82,7 +82,7 @@ def call (Map configMap){
                 steps {
                     script{
                         sh """
-                            docker push gspvsr/${$component}:${packageVersion}
+                            docker push gspvsr/${component}:${packageVersion}
                         """
                     }
                         
