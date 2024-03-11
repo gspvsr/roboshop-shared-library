@@ -52,7 +52,7 @@ def call (Map configMap){
                     nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
-                        nexusUrl: '44.197.180.151:8081/',
+                        nexusUrl: '34.200.225.111:8081/',
                         groupId: 'com.roboshop',
                         version: "$packageVersion",
                         repository: "${component}",
@@ -96,13 +96,11 @@ def call (Map configMap){
                         sh """
                             cd helm
                             sed -i 's/IMAGE_VERSION/$packageVersion/g' values.yaml
-                            helm install ${component} .
+                            helm install ${component} -n roboshop .
                         """
                     }
-                        
                 }
             }
-
 
             //here I need to configure downstram job. I have to pass package version for deployment
             // This job will wait until downstrem job is over
